@@ -10,28 +10,35 @@ class TaskController extends ChangeNotifier {
   TaskController({required this.preferences});
 
   List<String> allTasks = [];
-  List<String> allDates = [];
-  List<String> allTimes = [];
   List<String> allIsDone = [];
 
   String sfTask = "task";
-  String sfDate = "date";
-  String sfTime = "time";
   String sfIsDone = "isDone";
-
-  init() {
-    allTasks = preferences.getStringList(sfTask) ?? [];
-    allDates = preferences.getStringList(sfDate) ?? [];
-    allTimes = preferences.getStringList(sfTime) ?? [];
-    allIsDone = preferences.getStringList(sfIsDone) ?? [];
-  }
 
   get getAllTask {
     return _allTask;
   }
 
+  init() {
+    allTasks = preferences.getStringList(sfTask) ?? [];
+    allIsDone = preferences.getStringList(sfIsDone) ?? [];
+  }
+
+  setDate() {
+    preferences
+      ..setStringList(sfTask, allTasks)
+      ..setStringList(sfIsDone, allIsDone);
+
+    notifyListeners();
+  }
+
   addTask({required Task task}) {
     _allTask.add(task);
+
+    allTasks.add(task.task);
+    allIsDone.add(task.isDone.toString());
+
+    setDate();
     notifyListeners();
   }
 

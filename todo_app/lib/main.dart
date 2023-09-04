@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/controller/dateTime_controller.dart';
@@ -17,6 +18,12 @@ import 'package:todo_app/views/screens/setting_page.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
 
   SharedPreferences preferences = await SharedPreferences.getInstance();
   runApp(
@@ -85,8 +92,21 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
               brightness: Brightness.dark,
               floatingActionButtonTheme: FloatingActionButtonThemeData(
-                  backgroundColor: MyColor.theme1,
-                  foregroundColor: Colors.white),
+                backgroundColor: MyColor.theme1,
+                foregroundColor: Colors.white,
+              ),
+              appBarTheme: AppBarTheme(
+                foregroundColor: Colors.white,
+                backgroundColor: MyColor.theme1,
+                centerTitle: true,
+                titleTextStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
             ),
             themeMode: Provider.of<ThemeController>(context).isDark
                 ? ThemeMode.dark

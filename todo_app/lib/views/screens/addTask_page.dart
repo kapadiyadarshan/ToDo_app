@@ -23,7 +23,7 @@ class AddTaskPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Column(
           children: [
             Container(
@@ -224,7 +224,7 @@ class AddTaskPage extends StatelessWidget {
                   Provider.of<TaskController>(context, listen: false)
                       .addTask(task: task);
 
-                  Navigator.pushNamed(context, MyRoute.HomePage);
+                  Navigator.pop(context);
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

@@ -185,7 +185,7 @@ class iOSAddTaskPage extends StatelessWidget {
                   Provider.of<TaskController>(context, listen: false)
                       .addTask(task: task);
 
-                  Navigator.pushNamed(context, iOSRoute.iOSHomePage);
+                  Navigator.pop(context);
                 },
               )
             ],
