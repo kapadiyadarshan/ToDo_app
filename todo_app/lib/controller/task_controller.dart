@@ -3,52 +3,93 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/modal/task_modal.dart';
 
 class TaskController extends ChangeNotifier {
-  List<Task> _allTask = [];
+  List<Task> _allTaskDataList = [];
+
+  List<String> allTask = [];
+  List<String> allDate = [];
+  List<String> allTime = [];
 
   late SharedPreferences preferences;
 
   TaskController({required this.preferences});
 
-  List<String> allTasks = [];
-  List<String> allIsDone = [];
+  String taskKey = "taskKey";
+  String dateKey = "dateKey";
+  String timeKey = "timeKey";
 
-  String sfTask = "task";
-  String sfIsDone = "isDone";
+  initData() {
+    allTask = preferences.getStringList(taskKey) ?? [];
+    allDate = preferences.getStringList(dateKey) ?? [];
+    allTime = preferences.getStringList(timeKey) ?? [];
 
-  get getAllTask {
-    return _allTask;
+    _allTaskDataList = List.generate(
+      allTask.length,
+      (index) => Task(
+        task: allTask[index],
+        date: allDate[index],
+        time: allTime[index],
+        isDone: "false",
+      ),
+    );
   }
 
-  init() {
-    allTasks = preferences.getStringList(sfTask) ?? [];
-    allIsDone = preferences.getStringList(sfIsDone) ?? [];
-  }
-
-  setDate() {
+  setData() {
     preferences
-      ..setStringList(sfTask, allTasks)
-      ..setStringList(sfIsDone, allIsDone);
+      ..setStringList(taskKey, allTask)
+      ..setStringList(dateKey, allDate)
+      ..setStringList(timeKey, allTime);
 
     notifyListeners();
+  }
+
+  get getAllTask {
+    initData();
+    return _allTaskDataList;
   }
 
   addTask({required Task task}) {
-    _allTask.add(task);
+    initData();
 
-    allTasks.add(task.task);
-    allIsDone.add(task.isDone.toString());
+    _allTaskDataList.add(task);
 
-    setDate();
-    notifyListeners();
+    allTask.add(task.task);
+    allDate.add(task.date);
+    allTime.add(task.time);
+
+    setData();
   }
 
   removeTask({required int index}) {
-    _allTask.removeAt(index);
-    notifyListeners();
+    initData();
+    _allTaskDataList.removeAt(index);
+
+    allTask.removeAt(index);
+    allDate.removeAt(index);
+    allTime.removeAt(index);
+
+    setData();
+  }
+
+  editTask({required Task task, required int index}) {
+    initData();
+    _allTaskDataList[index] = task;
+
+    allTask[index] = task.task;
+    allDate[index] = task.date;
+    allTime[index] = task.time;
+
+    setData();
   }
 
   doneTask({required int index}) {
-    _allTask[index].isDone = !_allTask[index].isDone;
-    notifyListeners();
+    if (_allTaskDataList[index].isDone == "true") {
+      _allTaskDataList[index].isDone = "false";
+      notifyListeners();
+    }
+
+    if (_allTaskDataList[index].isDone == "false") {
+      _allTaskDataList[index].isDone = "true";
+      notifyListeners();
+    }
   }
 }

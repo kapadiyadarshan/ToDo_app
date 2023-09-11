@@ -79,31 +79,22 @@ class iOSHomePage extends StatelessWidget {
                                     title: Text(
                                       task.task,
                                       style: TextStyle(
-                                          fontSize: 20,
-                                          decoration: (task.isDone)
-                                              ? TextDecoration.lineThrough
-                                              : TextDecoration.none),
+                                        fontSize: 20,
+                                        decoration: (task.isDone == "true")
+                                            ? TextDecoration.lineThrough
+                                            : TextDecoration.none,
+                                      ),
                                     ),
                                     subtitle: Row(
                                       children: [
                                         Text(
-                                          "${task.date.day}-${task.date.month}-${task.date.year}",
+                                          task.date,
                                         ),
                                         const SizedBox(
                                           width: 12,
                                         ),
                                         Text(
-                                          "${(task.time.hour == 0) ? 12 : (task.time.hour > 12) ? (task.time.hour % 12).toString().padLeft(2, "0") : task.time.hour.toString().padLeft(2, "0")}:${task.time.minute.toString().padLeft(2, "0")}",
-                                        ),
-                                        const SizedBox(
-                                          width: 2,
-                                        ),
-                                        Text(
-                                          (task.time.hour >= 12) ? "PM" : "AM",
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                          ),
+                                          task.time,
                                         ),
                                       ],
                                     ),
@@ -111,7 +102,7 @@ class iOSHomePage extends StatelessWidget {
                                       onChanged: (value) {
                                         provider.doneTask(index: index);
                                       },
-                                      value: task.isDone,
+                                      value: (task.isDone == "true"),
                                     ),
                                     trailing: CupertinoButton(
                                       onPressed: () {

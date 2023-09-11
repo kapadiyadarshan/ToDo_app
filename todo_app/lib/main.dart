@@ -26,6 +26,7 @@ main() async {
   );
 
   SharedPreferences preferences = await SharedPreferences.getInstance();
+
   runApp(
     MultiProvider(
       providers: [

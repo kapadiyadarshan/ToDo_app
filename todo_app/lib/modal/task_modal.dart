@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Task {
   String task;
-  DateTime date;
-  TimeOfDay time;
-  bool isDone;
+  String date;
+  String time;
+  String isDone;
 
   Task({
     required this.task,

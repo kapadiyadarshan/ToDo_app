@@ -38,6 +38,7 @@ dependencies:
   provider: any
   shared_preferences: ^2.2.0
   like_button: ^2.0.5
+  intl: any
 
 dev_dependencies:
   flutter_test:

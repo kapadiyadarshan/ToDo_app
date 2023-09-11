@@ -24,8 +24,8 @@ class SettingPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Text("Change Platform"),
-                leading: Icon(Icons.android),
+                subtitle: const Text("Change Platform"),
+                leading: const Icon(Icons.android),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

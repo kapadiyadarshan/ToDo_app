@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
                           );
                         },
                         leading: Icon(
-                          provider.getAllTask[index].isDone
+                          (provider.getAllTask[index].isDone == "true")
                               ? Icons.check_box
                               : Icons.check_box_outline_blank,
                           color: MyColor.theme1,
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                            decoration: task.isDone
+                            decoration: (task.isDone == "true")
                                 ? TextDecoration.lineThrough
                                 : TextDecoration.none,
                           ),
@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${task.date.day}-${task.date.month}-${task.date.year}",
+                              "${task.date}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
@@ -90,17 +90,7 @@ class HomePage extends StatelessWidget {
                               width: 12,
                             ),
                             Text(
-                              "${(task.time.hour == 0) ? 12 : (task.time.hour > 12) ? (task.time.hour % 12).toString().padLeft(2, "0") : task.time.hour.toString().padLeft(2, "0")}:${task.time.minute.toString().padLeft(2, "0")}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            Text(
-                              (task.time.hour >= 12) ? "PM" : "AM",
+                              "${task.time}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,

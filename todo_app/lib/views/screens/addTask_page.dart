@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/controller/dateTime_controller.dart';
 import 'package:todo_app/controller/task_controller.dart';
@@ -10,8 +11,8 @@ class AddTaskPage extends StatelessWidget {
   AddTaskPage({super.key});
 
   late String todo;
-  late DateTime d = DateTime.now();
-  late TimeOfDay t = TimeOfDay.now();
+  late String d;
+  late String t;
 
   GlobalKey<FormState> formKey = GlobalKey();
 
@@ -112,7 +113,7 @@ class AddTaskPage extends StatelessWidget {
 
                                     if (date != null) {
                                       provider.dateChanged(dateTime: date);
-                                      d = date;
+                                      d = "${DateFormat("MMMd").format(date)}";
                                     }
                                   },
                                   icon: const Icon(Icons.date_range),
@@ -165,7 +166,7 @@ class AddTaskPage extends StatelessWidget {
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(
@@ -183,7 +184,7 @@ class AddTaskPage extends StatelessWidget {
 
                                     if (time != null) {
                                       provider.timeChanged(timeOfDay: time);
-                                      t = time;
+                                      t = "${(time.hour == 0) ? "12" : time.hour % 12}:${time.minute.toString().padLeft(2, "0")}\t${(time.hour >= 12) ? "PM" : "AM"}";
                                     }
                                   },
                                   icon: const Icon(Icons.timer),
@@ -218,7 +219,7 @@ class AddTaskPage extends StatelessWidget {
                     task: todo,
                     date: d,
                     time: t,
-                    isDone: false,
+                    isDone: "false",
                   );
 
                   Provider.of<TaskController>(context, listen: false)
