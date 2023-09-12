@@ -80,7 +80,7 @@ class iOSHomePage extends StatelessWidget {
                                       task.task,
                                       style: TextStyle(
                                         fontSize: 20,
-                                        decoration: (task.isDone == "true")
+                                        decoration: (task.isDone)
                                             ? TextDecoration.lineThrough
                                             : TextDecoration.none,
                                       ),
@@ -102,7 +102,7 @@ class iOSHomePage extends StatelessWidget {
                                       onChanged: (value) {
                                         provider.doneTask(index: index);
                                       },
-                                      value: (task.isDone == "true"),
+                                      value: (task.isDone),
                                     ),
                                     trailing: CupertinoButton(
                                       onPressed: () {

@@ -8,6 +8,7 @@ class TaskController extends ChangeNotifier {
   List<String> allTask = [];
   List<String> allDate = [];
   List<String> allTime = [];
+  List<String> allIsDone = [];
 
   late SharedPreferences preferences;
 
@@ -16,11 +17,13 @@ class TaskController extends ChangeNotifier {
   String taskKey = "taskKey";
   String dateKey = "dateKey";
   String timeKey = "timeKey";
+  String isDoneKey = "isDoneKey";
 
   initData() {
     allTask = preferences.getStringList(taskKey) ?? [];
     allDate = preferences.getStringList(dateKey) ?? [];
     allTime = preferences.getStringList(timeKey) ?? [];
+    allIsDone = preferences.getStringList(isDoneKey) ?? [];
 
     _allTaskDataList = List.generate(
       allTask.length,
@@ -28,7 +31,7 @@ class TaskController extends ChangeNotifier {
         task: allTask[index],
         date: allDate[index],
         time: allTime[index],
-        isDone: "false",
+        isDone: (allIsDone[index] == "true") ? true : false,
       ),
     );
   }
@@ -37,7 +40,8 @@ class TaskController extends ChangeNotifier {
     preferences
       ..setStringList(taskKey, allTask)
       ..setStringList(dateKey, allDate)
-      ..setStringList(timeKey, allTime);
+      ..setStringList(timeKey, allTime)
+      ..setStringList(isDoneKey, allIsDone);
 
     notifyListeners();
   }
@@ -50,18 +54,19 @@ class TaskController extends ChangeNotifier {
   addTask({required Task task}) {
     initData();
 
-    _allTaskDataList.add(task);
+    // _allTaskDataList.add(task);
 
     allTask.add(task.task);
     allDate.add(task.date);
     allTime.add(task.time);
+    allIsDone.add((task.isDone) ? "true" : "false");
 
     setData();
   }
 
   removeTask({required int index}) {
     initData();
-    _allTaskDataList.removeAt(index);
+    // _allTaskDataList.removeAt(index);
 
     allTask.removeAt(index);
     allDate.removeAt(index);
@@ -72,7 +77,7 @@ class TaskController extends ChangeNotifier {
 
   editTask({required Task task, required int index}) {
     initData();
-    _allTaskDataList[index] = task;
+    // _allTaskDataList[index] = task;
 
     allTask[index] = task.task;
     allDate[index] = task.date;
@@ -82,14 +87,20 @@ class TaskController extends ChangeNotifier {
   }
 
   doneTask({required int index}) {
-    if (_allTaskDataList[index].isDone == "true") {
-      _allTaskDataList[index].isDone = "false";
-      notifyListeners();
-    }
+    initData();
+    _allTaskDataList[index].isDone = !_allTaskDataList[index].isDone;
 
-    if (_allTaskDataList[index].isDone == "false") {
-      _allTaskDataList[index].isDone = "true";
-      notifyListeners();
+    // allIsDone[index] = "true";
+    if (allIsDone[index] == "true") {
+      allIsDone[index] = "false";
+    } else {
+      allIsDone[index] = "true";
     }
+    // if (allIsDone[index] == "false") {
+    //   allIsDone[index] = "true";
+    // }
+
+    setData();
+    // notifyListeners();
   }
 }

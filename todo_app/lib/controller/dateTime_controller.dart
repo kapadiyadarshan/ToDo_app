@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DateTimeController extends ChangeNotifier {
-  DateTime date = DateTime.now();
-  TimeOfDay time = TimeOfDay.now();
+  DateTime? date;
+  TimeOfDay? time;
 
   List<String> allDates = [];
   List<String> allTimes = [];

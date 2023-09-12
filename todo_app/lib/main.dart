@@ -72,6 +72,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               useMaterial3: true,
+              colorSchemeSeed: MyColor.theme1,
               floatingActionButtonTheme: FloatingActionButtonThemeData(
                 backgroundColor: MyColor.theme1,
                 foregroundColor: Colors.white,
@@ -84,12 +85,10 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
               ),
             ),
             darkTheme: ThemeData(
+              colorSchemeSeed: MyColor.theme1,
               useMaterial3: true,
               brightness: Brightness.dark,
               floatingActionButtonTheme: FloatingActionButtonThemeData(

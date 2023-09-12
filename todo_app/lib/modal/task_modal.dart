@@ -4,7 +4,7 @@ class Task {
   String task;
   String date;
   String time;
-  String isDone;
+  bool isDone;
 
   Task({
     required this.task,

@@ -59,7 +59,9 @@ class iOSAddTaskPage extends StatelessWidget {
                       "Date",
                     ),
                     subtitle: Text(
-                      "${provider.date.day}-${provider.date.month}-${provider.date.year}",
+                      (provider.date == null)
+                          ? "Pick Date"
+                          : "${provider.date!.day}-${provider.date!.month}-${provider.date!.year}",
                       style: const TextStyle(
                         color: CupertinoColors.activeBlue,
                       ),
@@ -89,7 +91,7 @@ class iOSAddTaskPage extends StatelessWidget {
                               mode: CupertinoDatePickerMode.date,
                               onDateTimeChanged: (DateTime date) {
                                 provider.dateChanged(dateTime: date);
-                                d = "${DateFormat("MMMd").format(date)}";
+                                d = "${DateFormat("yMd").format(date)}";
                               },
                             ),
                           ),
@@ -120,16 +122,9 @@ class iOSAddTaskPage extends StatelessWidget {
                     subtitle: Row(
                       children: [
                         Text(
-                          "${(provider.time.hour == 0) ? 12 : (provider.time.hour > 12) ? (provider.time.hour % 12).toString().padLeft(2, "0") : provider.time.hour.toString().padLeft(2, "0")}:${provider.time.minute.toString().padLeft(2, "0")}",
-                          style: const TextStyle(
-                            color: CupertinoColors.activeBlue,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        Text(
-                          (provider.time.hour >= 12) ? "PM" : "AM",
+                          (provider.time == null)
+                              ? "Pick Time"
+                              : "${(provider.time!.hour == 0) ? 12 : (provider.time!.hour > 12) ? (provider.time!.hour % 12).toString().padLeft(2, "0") : provider.time!.hour.toString().padLeft(2, "0")}:${provider.time!.minute.toString().padLeft(2, "0")}\t${(provider.time!.hour >= 12) ? "PM" : "AM"}",
                           style: const TextStyle(
                             color: CupertinoColors.activeBlue,
                           ),
@@ -157,7 +152,7 @@ class iOSAddTaskPage extends StatelessWidget {
                                 provider.timeChanged(
                                   timeOfDay: TimeOfDay.fromDateTime(time),
                                 );
-                                t = "${(time.hour == 0) ? "12" : time.hour % 12}:${time.minute.toString().padLeft(2, "0")}\t${(time.hour >= 12) ? "PM" : "AM"}";
+                                t = "${(provider.time!.hour == 0) ? 12 : (provider.time!.hour > 12) ? (provider.time!.hour % 12).toString().padLeft(2, "0") : provider.time!.hour.toString().padLeft(2, "0")}:${provider.time!.minute.toString().padLeft(2, "0")}\t${(provider.time!.hour >= 12) ? "PM" : "AM"}";
                               },
                             ),
                           ),
@@ -183,7 +178,7 @@ class iOSAddTaskPage extends StatelessWidget {
                     task: todo,
                     date: d,
                     time: t,
-                    isDone: "false",
+                    isDone: false,
                   );
 
                   Provider.of<TaskController>(context, listen: false)

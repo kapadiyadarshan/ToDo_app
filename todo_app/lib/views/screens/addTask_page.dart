@@ -90,7 +90,9 @@ class AddTaskPage extends StatelessWidget {
                             return Column(
                               children: [
                                 Text(
-                                  "${provider.date.day.toString().padLeft(2, "0")}-${provider.date.month.toString().padLeft(2, "0")}-${provider.date.year}",
+                                  (provider.date == null)
+                                      ? "Pick Date"
+                                      : "${provider.date!.day}-${provider.date!.month}-${provider.date!.year}",
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -113,7 +115,7 @@ class AddTaskPage extends StatelessWidget {
 
                                     if (date != null) {
                                       provider.dateChanged(dateTime: date);
-                                      d = "${DateFormat("MMMd").format(date)}";
+                                      d = "${DateFormat("yMd").format(date)}";
                                     }
                                   },
                                   icon: const Icon(Icons.date_range),
@@ -121,11 +123,6 @@ class AddTaskPage extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: MyColor.theme1,
                                     foregroundColor: Colors.white,
-                                    shape: const BeveledRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                    ),
                                   ),
                                 ),
                               ],
@@ -148,26 +145,14 @@ class AddTaskPage extends StatelessWidget {
                               builder: (context, provider, _) {
                             return Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "${(provider.time.hour == 0) ? 12 : (provider.time.hour > 12) ? (provider.time.hour % 12).toString().padLeft(2, "0") : provider.time.hour.toString().padLeft(2, "0")}:${provider.time.minute.toString().padLeft(2, "0")}",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      (provider.time.hour >= 12) ? "PM" : "AM",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  (provider.time == null)
+                                      ? "Pick Time"
+                                      : "${(provider.time!.hour == 0) ? 12 : (provider.time!.hour > 12) ? (provider.time!.hour % 12).toString().padLeft(2, "0") : provider.time!.hour.toString().padLeft(2, "0")}:${provider.time!.minute.toString().padLeft(2, "0")}\t${(provider.time!.hour >= 12) ? "PM" : "AM"}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 6,
@@ -176,15 +161,13 @@ class AddTaskPage extends StatelessWidget {
                                   onPressed: () async {
                                     TimeOfDay? time = await showTimePicker(
                                       context: context,
-                                      initialTime: TimeOfDay(
-                                        hour: provider.time.hour,
-                                        minute: provider.time.minute,
-                                      ),
+                                      initialTime:
+                                          provider.time ?? TimeOfDay.now(),
                                     );
 
                                     if (time != null) {
                                       provider.timeChanged(timeOfDay: time);
-                                      t = "${(time.hour == 0) ? "12" : time.hour % 12}:${time.minute.toString().padLeft(2, "0")}\t${(time.hour >= 12) ? "PM" : "AM"}";
+                                      t = "${(provider.time!.hour == 0) ? 12 : (provider.time!.hour > 12) ? (provider.time!.hour % 12).toString().padLeft(2, "0") : provider.time!.hour.toString().padLeft(2, "0")}:${provider.time!.minute.toString().padLeft(2, "0")}\t${(time.hour >= 12) ? "PM" : "AM"}";
                                     }
                                   },
                                   icon: const Icon(Icons.timer),
@@ -192,11 +175,6 @@ class AddTaskPage extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: MyColor.theme1,
                                     foregroundColor: Colors.white,
-                                    shape: const BeveledRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                    ),
                                   ),
                                 ),
                               ],
@@ -219,7 +197,7 @@ class AddTaskPage extends StatelessWidget {
                     task: todo,
                     date: d,
                     time: t,
-                    isDone: "false",
+                    isDone: false,
                   );
 
                   Provider.of<TaskController>(context, listen: false)

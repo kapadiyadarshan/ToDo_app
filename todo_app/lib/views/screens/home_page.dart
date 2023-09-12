@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/controller/task_controller.dart';
@@ -55,23 +57,23 @@ class HomePage extends StatelessWidget {
 
                     return Card(
                       child: ListTile(
-                        onTap: () {
-                          provider.doneTask(
-                            index: index,
-                          );
-                        },
-                        leading: Icon(
-                          (provider.getAllTask[index].isDone == "true")
-                              ? Icons.check_box
-                              : Icons.check_box_outline_blank,
-                          color: MyColor.theme1,
+                        leading: GestureDetector(
+                          onTap: () {
+                            provider.doneTask(index: index);
+                          },
+                          child: Icon(
+                            (provider.getAllTask[index].isDone)
+                                ? Icons.check_box
+                                : Icons.check_box_outline_blank,
+                            color: MyColor.theme1,
+                          ),
                         ),
                         title: Text(
                           task.task,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                            decoration: (task.isDone == "true")
+                            decoration: (task.isDone)
                                 ? TextDecoration.lineThrough
                                 : TextDecoration.none,
                           ),
@@ -81,19 +83,25 @@ class HomePage extends StatelessWidget {
                           children: [
                             Text(
                               "${task.date}",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
+                                decoration: (task.isDone)
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
                               ),
                             ),
                             const SizedBox(
                               width: 12,
                             ),
                             Text(
-                              "${task.time}",
-                              style: const TextStyle(
+                              task.time,
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
+                                decoration: (task.isDone)
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
                               ),
                             ),
                           ],
